@@ -9,25 +9,6 @@ fs.writeFile('./boys/Sasha.js', '{"gender": "male", "age": 21, "name": "Sasha"}'
     fs.rename('./boys/Sasha.js', './boys/Sasha.json', err => {
         err && console.log(err);
     })
-
-    fs.readdir('./boys', (err, files) => {
-        if (err) {
-            console.log(err)
-        return;
-    }
-    for (const file of files){
-        console.log(file);
-
-        fs.readFile(`./boys/${file}`, (err1, data) => {
-            if (err1) {
-                console.log(err1)
-                return;
-            }
-
-            console.log("Boys", data.toString())
-        })
-    }
-    })
 })
 
 fs.writeFile('./boys/Natali.js', '{"gender": "famale", "age": 23, "name": "Natali"}', (err) => {
@@ -101,6 +82,25 @@ fs.writeFile('./girls/Kolya.js', '{"gender": "male", "age": 22, "name": "Kolya"}
                 console.log("Girls", data.toString())
             })
         }
+
+        fs.readdir('./boys', (err, files) => {
+            if (err) {
+                console.log(err)
+                return;
+            }
+            for (const file of files){
+                console.log(file);
+
+                fs.readFile(`./boys/${file}`, (err1, data) => {
+                    if (err1) {
+                        console.log(err1)
+                        return;
+                    }
+
+                    console.log("Boys", data.toString())
+                })
+            }
+        })
     })
 })
 

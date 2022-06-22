@@ -1,11 +1,29 @@
-const userRouter = require('express').Router();
+const router = require('express').Router();
 
-const userController = require("../controllers/user.controller");
+const userController = require('../controllers/user.controller');
+const commonMiddleware  = require('../middleWares/common.middleWare');
+const userMiddleware = require('../middleWares/user.middleWare');
 
-userRouter.get('/', userController.getAllUsers);
-userRouter.post('/', userController.updateUser);
-userRouter.delete('/:usersId', userController.deleteUser);
-userRouter.get('/:userId', userController.getById);
-userRouter.put('/:usersId', userController.createUser);
+router.get('/',
+    userMiddleware.isUserQueryValid,
+    userController.findUsers);
+router.post('/',
+    userMiddleware.isUserValidForCreate,
+    userMiddleware.isUserUniq,
+    userController.createUser);
 
-module.exports = userRouter;
+router.get('/:id',
+    commonMiddleware.isIdValid,
+    userMiddleware.isUserPresent,
+    userController.getUserById);
+router.put('/:id',
+    commonMiddleware.isIdValid,
+    userMiddleware.isUserValidForUpdate,
+    userMiddleware.isUserPresent,
+    userController.updateUserById);
+router.delete('/:id',
+    commonMiddleware.isIdValid,
+    userMiddleware.isUserPresent,
+    userController.deleteUserById);
+
+module.exports = router;
